@@ -64,7 +64,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                       <td th:text="${godata.noktp}"></td><!-- comment -->
                       <td th:text="${godata.nama}"></td><!-- comment -->
                       <td th:text="${godata.alamat}"></td><!-- comment -->
-                      <td th:text="${godata.tgllahir}"></td><!-- comment -->
+                      <td th:text="${#calendars.format(godata.tgllahir,'dd-mm-yyyy')}"></td><!-- comment -->
                       <td>
                           <a href="/detil">Detail</a>
                           <a href="/edit">Edit</a><!-- comment -->
