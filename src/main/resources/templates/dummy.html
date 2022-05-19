@@ -20,7 +20,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </tr>
                   <tr th:each="godummy:${goDummy}">
                       <td th:text="${godummy.id}"></td><!-- comment -->
-                      <td th:text="${#calendars.format(godummy.tanggal,'dd-mm-yyyy')}"></td><!-- comment -->
+                      <td th:text="${#dates.format(godummy.tanggal,'dd-mm-yyyy')}"></td><!-- comment -->
                       <td th:text="${godummy.tanggal}"></td><!-- comment -->
                 </tr>
             </table>

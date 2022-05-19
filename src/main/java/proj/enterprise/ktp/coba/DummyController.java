@@ -35,7 +35,7 @@ public class DummyController {
     List<Dummy> data = new ArrayList<>();
     
     @RequestMapping("/read")
-    @ResponseBody
+    //@ResponseBody
     public List<Dummy> getDummy(){
         try {
             data = dummyController.findDummyEntities();
@@ -50,17 +50,17 @@ public class DummyController {
     }
     
     @PostMapping(value="/newdata", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @ResponseBody
-    public String newDummy(@RequestParam("file") MultipartFile file, HttpServletRequest data) throws ParseException, Exception{
+    //@ResponseBody
+    public String newDummy(HttpServletRequest data, @RequestParam("gambar") MultipartFile file) throws ParseException, Exception{
         Dummy dumdata = new Dummy();
         
         String id = data.getParameter("id");
         int iid = Integer.parseInt(id);
         
-        String tanggal = data.getParameter("");
+        String tanggal = data.getParameter("tanggal");
         Date date = new SimpleDateFormat("yyyy-MM-dd").parse(tanggal);
         
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        //String filename = StringUtils.cleanPath(file.getOriginalFilename());
         byte[] image = file.getBytes();
         
         dumdata.setId(iid);
@@ -69,6 +69,6 @@ public class DummyController {
         
         dummyController.create(dumdata);
         
-        return "created";
+        return "dummy/create";
     }
 }
