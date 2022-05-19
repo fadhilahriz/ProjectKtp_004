@@ -18,10 +18,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <th>Tanggal Lahir</th><!-- comment -->
                     <th>Foto</th>
                 </tr>
-                  <tr th:each="godummy:${goDummy}">
+                  <tr th:each="godummy:${godummy}">
                       <td th:text="${godummy.id}"></td><!-- comment -->
                       <td th:text="${#dates.format(godummy.tanggal,'dd-mm-yyyy')}"></td><!-- comment -->
-                      <td th:text="${godummy.tanggal}"></td><!-- comment -->
+                      <td><img th:src="@{${'/image?id='+ godummy.id}}" alt="image" width="100"></td><!-- comment -->
                 </tr>
             </table>
         </div>
