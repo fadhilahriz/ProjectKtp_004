@@ -18,6 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +29,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import proj.enterprise.ktp.Data;
 import proj.enterprise.ktp.DataJpaController;
+import static proj.enterprise.ktp.coba.Dummy_.id;
+import proj.enterprise.ktp.coba.exceptions.NonexistentEntityException;
 
 /**
  *
@@ -71,7 +76,7 @@ public class DummyController {
         String tanggal = data.getParameter("tanggal");
         Date date = new SimpleDateFormat("yyyy-MM-dd").parse(tanggal);
         
-        //String filename = StringUtils.cleanPath(file.getOriginalFilename());
+//        String filename = StringUtils.cleanPath(file.getOriginalFilename());
         byte[] image = file.getBytes();
         
         dumdata.setId(iid);
@@ -89,4 +94,59 @@ public class DummyController {
 	byte[] image = dumdata.getGambar();
 	return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(image);
     }
+    
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String deleteDummy(@PathVariable("id") int id) throws Exception {
+	dummyController.destroy(id);
+	return "redirect:/read";
+    }
+    
+    @PostMapping(value="/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    //@ResponseBody
+    public String updateDummy(HttpServletRequest data, @RequestParam("gambar") MultipartFile file) throws ParseException, Exception{
+        Dummy dumdata = new Dummy();
+        
+        String id = data.getParameter("id");
+        int iid = Integer.parseInt(id);
+        
+        String tanggal = data.getParameter("tanggal");
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(tanggal);
+        
+//        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        
+        
+        dumdata.setId(iid);
+        dumdata.setTanggal(date);
+        if(file.getBytes() != null ){
+            byte[] image = file.getBytes();
+            dumdata.setGambar(image);
+        
+            dummyController.edit(dumdata);
+
+            return "redirect:/read";
+        }else{
+            dummyController.edit(dumdata);
+
+            return "redirect:/read";
+        }
+        
+    }
+    
+    @RequestMapping("/edit/{id}")
+    public String editDummy(Model model, @PathVariable("id") int id) throws Exception {
+//        try{
+//            data = dummyController.findDummyEntities();
+//        }
+//        catch (Exception e){}
+      
+        Dummy data = dummyController.findDummy(id);
+        model.addAttribute("godummy", data);
+        return "dummy/update";
+    }
+    
+//    @RequestMapping(value = "update/{id}", method = RequestMethod.POST)
+//    public String updateDummy(@ModelAttribute("id") Dummy dummy ) throws Exception {
+//        dummyController.edit((Dummy) id);
+//        return "redirect:/read";
+//    }
 }

@@ -5,12 +5,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Dummy</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap
+/4.1.3/css/bootstrap.min.css" integrity="sha384-
+MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="an
+onymous">
     </head>
     <body>
-        <a href="/create">Create</a>
+        <button class="btn btn-label btn-sm"><a href="/create">Create</a></button>
         <div class="table-responsive">
             <table class="table align-middle">
                 <tr>
@@ -20,8 +24,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </tr>
                   <tr th:each="godummy:${godummy}">
                       <td th:text="${godummy.id}"></td><!-- comment -->
-                      <td th:text="${#dates.format(godummy.tanggal,'dd-mm-yyyy')}"></td><!-- comment -->
+                      <td th:text="${#dates.format(godummy.tanggal,'yyyy-MM-dd')}"></td><!-- comment -->
                       <td><img th:src="@{${'/image?id='+ godummy.id}}" alt="image" width="100"></td><!-- comment -->
+                      <td>
+                        <a th:href="@{/edit/{id}(id=${godummy.id})}" class="btn btn-warning btn-sm">Edit</a>
+                        <a th:href="@{/delete/{id}(id=${godummy.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Yakin Mau Dihapus?')">Delete</a>
+                      </td>
                 </tr>
             </table>
         </div>
