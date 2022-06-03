@@ -108,6 +108,7 @@ public class DummyController {
         
         String id = data.getParameter("id");
         int iid = Integer.parseInt(id);
+        dumdata = dummyController.findDummy(iid);
         
         String tanggal = data.getParameter("tanggal");
         Date date = new SimpleDateFormat("yyyy-MM-dd").parse(tanggal);
@@ -117,7 +118,7 @@ public class DummyController {
         
         dumdata.setId(iid);
         dumdata.setTanggal(date);
-        if(file.getBytes() != null ){
+        if(!file.isEmpty()){
             byte[] image = file.getBytes();
             dumdata.setGambar(image);
         
